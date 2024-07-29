@@ -71,8 +71,8 @@ class MyHomeState extends State<MyHome> {
                         style: TextStyle(fontSize: 20),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green, // Cor do botão
-                        foregroundColor: Colors.white, // Cor do texto
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
                       ),
                     ),
                   )
