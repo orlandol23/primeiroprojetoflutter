@@ -98,7 +98,10 @@ class MyHomeState extends State<MyHome> {
                           : null,
                     ),
                   ),
-                  trailing: IconButton(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                    IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       TextEditingController editController =
@@ -135,6 +138,17 @@ class MyHomeState extends State<MyHome> {
                           });
                     },
                   ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: (){
+                        setState(() {
+                          _tasks.removeAt(index);
+                        });
+                      }),
+                    ],
+                  ),
+                  
+                   
                   leading: Checkbox(
                       value: _tasks[index].isCompleted,
                       onChanged: (bool? value) {
