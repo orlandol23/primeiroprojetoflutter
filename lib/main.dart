@@ -21,7 +21,7 @@ class MyHome extends StatefulWidget {
 
 class MyHomeState extends State<MyHome> {
   final TextEditingController taskController = TextEditingController();
-  List<String> _tasks = <String>[];
+  List<String> _tasks = List<String>.empty(growable: true);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -60,8 +60,7 @@ class MyHomeState extends State<MyHome> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           setState(() {
-                          _tasks.add(taskController.text);
-
+                            _tasks.add(taskController.text);
                           });
                           taskController.clear();
                         }
@@ -83,9 +82,45 @@ class MyHomeState extends State<MyHome> {
                 child: ListView.builder(
               itemBuilder: ((context, index) {
                 return Card(
-                  child: ListTile(
-                  title: Text(_tasks[index]),
-                ));                 
+                    child: ListTile(
+                        title: Text(_tasks[index]),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            TextEditingController editController =
+                                TextEditingController(text: _tasks[index]);
+
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Editar Tarefa"),
+                                    content: TextFormField(
+                                      controller: editController,
+                                      decoration: InputDecoration(
+                                          hintText: "Digite a nova tarefa"),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text("Cancelar"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("Salvar"),
+                                        onPressed: () {
+                                          setState(() {
+                                            _tasks[index] = editController.text;
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                        )));
               }),
               itemCount: _tasks.length,
             ))
